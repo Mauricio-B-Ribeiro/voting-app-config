@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: voting-app      # O nome da aplicação dentro do Argo CD
+  namespace: argocd    # Onde este objeto de configuração vive
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/Mauricio-B-Ribeiro/voting-app-config' # <-- MUDE ISTO
+    targetRevision: HEAD                   # Siga o branch principal (main/master)
+    path: voting-app-chart                 # O caminho para o chart dentro do repo
+  destination:
+    server: 'https://kubernetes.default.svc' # O cluster local
+    namespace: default                       # Onde implantar a aplicação
+  syncPolicy:
+    automated:
+      prune: true      # Apaga recursos que foram removidos do Git
+      selfHeal: true   # Corrige desvios (se alguém alterar algo manualmente no cluster)
