@@ -1,0 +1,36 @@
+# values.yaml
+
+# Configurações do Redis
+redis:
+  replicaCount: 1
+  image:
+    repository: "redis"
+    tag: "alpine"
+
+# Configurações do Postgres
+postgres:
+  replicaCount: 1
+  image:
+    repository: "postgres"
+    tag: "9.4"
+
+# Configurações do Worker
+worker:
+  replicaCount: 1
+  image:
+    repository: "908712719078.dkr.ecr.eu-west-1.amazonaws.com/worker-app"
+    tag: "v1"
+
+# Configurações da Aplicação de Votação
+vote:
+  replicaCount: 2
+  image:
+    repository: "908712719078.dkr.ecr.eu-west-1.amazonaws.com/voting-app"
+    tag: "v1"
+
+# Configurações da Aplicação de Resultados
+result:
+  replicaCount: 1
+  image:
+    repository: "908712719078.dkr.ecr.eu-west-1.amazonaws.com/result-app"
+    tag: "v1"

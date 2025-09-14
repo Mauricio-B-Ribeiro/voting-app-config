@@ -1,0 +1,39 @@
+# templates/redis.yaml
+
+# Deployment para o Redis
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-deployment
+  labels:
+    app: redis # Rótulo para o deployment
+spec:
+  replicas: {{ .Values.redis.replicaCount }} # Valor virá do values.yaml
+  selector:
+    matchLabels:
+      app: redis # O seletor para encontrar os pods que este deployment gere
+  template:
+    metadata:
+      labels:
+        app: redis # O rótulo que será aplicado aos pods
+    spec:
+      containers:
+        - name: redis
+          image: "{{ .Values.redis.image.repository }}:{{ .Values.redis.image.tag }}" # Imagem virá do values.yaml
+          ports:
+            - containerPort: 6379
+
+--- # Separador para o próximo recurso YAML no mesmo ficheiro
+
+# Service para o Redis
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-service # Nome pelo qual outros pods encontrarão o Redis
+spec:
+  type: ClusterIP # Apenas acessível dentro do cluster
+  selector:
+    app: redis # Encontra os pods com este rótulo
+  ports:
+    - port: 6379
+      targetPort: 6379
